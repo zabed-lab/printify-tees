@@ -17,7 +17,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const PRICE_PER_TSHIRT = 399;
 
   let orders = JSON.parse(localStorage.getItem("orders")) || [];
-  renderOrders();
+  if (orderList) {
+    renderOrders();
+  }
 
   // DARK/LIGHT THEME WITH ROTATION
   if (localStorage.getItem("theme") === "dark") {
@@ -25,65 +27,73 @@ document.addEventListener("DOMContentLoaded", () => {
     themeBtn.textContent = "☀️";
   }
 
-  themeBtn.addEventListener("click", () => {
-    // add rotation animation
-    themeBtn.classList.add("theme-toggle-rotate");
-    setTimeout(() => {
-      themeBtn.classList.remove("theme-toggle-rotate");
-    }, 500);
+  if (themeBtn) {
+    themeBtn.addEventListener("click", () => {
+      themeBtn.classList.add("theme-toggle-rotate");
 
-    document.body.classList.toggle("dark");
-    const isDark = document.body.classList.contains("dark");
-    localStorage.setItem("theme", isDark ? "dark" : "light");
-    themeBtn.textContent = isDark ? "☀️" : "🌙";
-  });
+      setTimeout(() => {
+        themeBtn.classList.remove("theme-toggle-rotate");
+      }, 500);
+
+      document.body.classList.toggle("dark");
+      const isDark = document.body.classList.contains("dark");
+      localStorage.setItem("theme", isDark ? "dark" : "light");
+      themeBtn.textContent = isDark ? "☀️" : "🌙";
+    });
+  }
 
   // HAMBURGER MENU
-  hamburger.addEventListener("click", () => {
-    navLinks.classList.toggle("show");
-  });
+  if (hamburger && navLinks) {
+    hamburger.addEventListener("click", () => {
+      navLinks.classList.toggle("show");
+    });
+  }
 
   // OPEN ORDER FORM
-  openOrder.addEventListener("click", () => {
-    orderForm.scrollIntoView({ behavior: "smooth" });
-  });
+  if (openOrder && orderForm) {
+    openOrder.addEventListener("click", () => {
+      orderForm.scrollIntoView({ behavior: "smooth" });
+    });
+  }
 
   // SUBMIT ORDER
-  submitOrder.addEventListener("click", () => {
-    const name = nameInput.value.trim();
-    const phone = phoneInput.value.trim();
-    const size = sizeInput.value;
-    const quantity = Number(qtyInput.value);
+  if (submitOrder) {
+    submitOrder.addEventListener("click", () => {
+      const name = nameInput.value.trim();
+      const phone = phoneInput.value.trim();
+      const size = sizeInput.value;
+      const quantity = Number(qtyInput.value);
 
-    if (!name || !phone || !size || quantity <= 0) {
-      message.style.color = "red";
-      message.textContent = "❌ Please fill all fields correctly";
-      return;
-    }
+      if (!name || !phone || !size || quantity <= 0) {
+        message.style.color = "red";
+        message.textContent = "❌ Please fill all fields correctly";
+        return;
+      }
 
-    const totalPrice = quantity * PRICE_PER_TSHIRT;
+      const totalPrice = quantity * PRICE_PER_TSHIRT;
 
-    const order = {
-      name,
-      phone,
-      size,
-      quantity,
-      totalPrice,
-      time: new Date().toLocaleString(),
-    };
+      const order = {
+        name,
+        phone,
+        size,
+        quantity,
+        totalPrice,
+        time: new Date().toLocaleString(),
+      };
 
-    orders.push(order);
-    localStorage.setItem("orders", JSON.stringify(orders));
-    renderOrders();
+      orders.push(order);
+      localStorage.setItem("orders", JSON.stringify(orders));
+      renderOrders();
 
-    message.style.color = "green";
-    message.textContent = "✅ Order placed successfully";
+      message.style.color = "green";
+      message.textContent = "✅ Order placed successfully";
 
-    nameInput.value = "";
-    phoneInput.value = "";
-    sizeInput.value = "";
-    qtyInput.value = "";
-  });
+      nameInput.value = "";
+      phoneInput.value = "";
+      sizeInput.value = "";
+      qtyInput.value = "";
+    });
+  }
 
   // RENDER ORDER HISTORY
   function renderOrders() {
@@ -104,13 +114,15 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // CLEAR HISTORY
-  clearBtn.addEventListener("click", () => {
-    if (confirm("Are you sure you want to clear all order history?")) {
-      orders = [];
-      localStorage.removeItem("orders");
-      orderList.innerHTML = "";
-      message.style.color = "orange";
-      message.textContent = "🗑️ Order history cleared";
-    }
-  });
+  if (clearBtn) {
+    clearBtn.addEventListener("click", () => {
+      if (confirm("Are you sure you want to clear all order history?")) {
+        orders = [];
+        localStorage.removeItem("orders");
+        orderList.innerHTML = "";
+        message.style.color = "orange";
+        message.textContent = "🗑️ Order history cleared";
+      }
+    });
+  }
 });

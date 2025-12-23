@@ -47,6 +47,16 @@ body {
   z-index: 100;
 }
 
+.header {
+  z-index: 1000;
+}
+
+.theme-btn,
+.hamburger {
+  position: relative;
+  z-index: 1001;
+}
+
 .logo {
   font-family: "Poppins", sans-serif;
   font-weight: 700;
@@ -57,6 +67,11 @@ body {
   display: flex;
   align-items: center;
   position: relative;
+}
+
+/* Mobile dropdown fix */
+.nav-links {
+  pointer-events: auto;
 }
 
 .nav-links {
@@ -265,13 +280,17 @@ body {
    RESPONSIVE
 ======================= */
 @media (max-width: 900px) {
+  /* HERO */
   .hero {
     flex-direction: column;
     text-align: center;
   }
+
   .hero-right {
     max-width: 300px;
   }
+
+  /* NAV LINKS (MOBILE DROPDOWN) */
   .nav-links {
     display: none;
     flex-direction: column;
@@ -282,10 +301,17 @@ body {
     width: 200px;
     padding: 20px;
     border-radius: 8px;
+    z-index: 99;
+
+    pointer-events: none;
   }
+
   .nav-links.show {
     display: flex;
+    pointer-events: auto;
   }
+
+  /* HAMBURGER */
   .hamburger {
     display: flex;
   }
