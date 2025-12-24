@@ -28,10 +28,19 @@
         </nav>
     </header>
 
-    <main style="padding:40px;">
-        <h1>Inventory</h1>
-        <p>Today we will build stock tracking here.</p>
+    <main class="inventory-page">
+        <h1>Inventory Management</h1>
+
+        <div class="inventory-card">
+            <input type="text" id="productName" placeholder="Product name">
+            <input type="number" id="productStock" placeholder="Stock quantity">
+            <button id="addProduct" class="primary-btn">Add Product</button>
+            <p id="inventoryMsg"></p>
+        </div>
+
+        <div id="inventoryList"></div>
     </main>
+
 
     <script src="../js/script.js"></script>
 </body>

@@ -126,3 +126,59 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
+// =======================
+// INVENTORY SYSTEM
+// =======================
+const productName = document.getElementById("productName");
+const productStock = document.getElementById("productStock");
+const addProductBtn = document.getElementById("addProduct");
+const inventoryList = document.getElementById("inventoryList");
+const inventoryMsg = document.getElementById("inventoryMsg");
+
+let inventory = JSON.parse(localStorage.getItem("inventory")) || [];
+
+function renderInventory() {
+  if (!inventoryList) return;
+  inventoryList.innerHTML = "";
+
+  inventory.forEach((item, index) => {
+    const div = document.createElement("div");
+    div.className = "inventory-item";
+    div.innerHTML = `
+      <span>
+        <strong>${item.name}</strong><br>
+        Stock: <span class="${item.stock < 5 ? "low-stock" : ""}">
+          ${item.stock}
+        </span>
+      </span>
+      <span>#${index + 1}</span>
+    `;
+    inventoryList.appendChild(div);
+  });
+}
+
+if (addProductBtn) {
+  renderInventory();
+
+  addProductBtn.addEventListener("click", () => {
+    const name = productName.value.trim();
+    const stock = Number(productStock.value);
+
+    if (!name || stock < 0) {
+      inventoryMsg.textContent = "❌ Enter valid product & stock";
+      inventoryMsg.style.color = "red";
+      return;
+    }
+
+    inventory.push({ name, stock });
+    localStorage.setItem("inventory", JSON.stringify(inventory));
+    renderInventory();
+
+    inventoryMsg.textContent = "✅ Product added";
+    inventoryMsg.style.color = "green";
+
+    productName.value = "";
+    productStock.value = "";
+  });
+}
